@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_05_020718) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_17_185520) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "brands", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "brand_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -29,16 +29,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_05_020718) do
   end
 
   create_table "stores", force: :cascade do |t|
-    t.string "address"
+    t.string "address", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "tracking_events", force: :cascade do |t|
-    t.boolean "inventory_present"
+    t.boolean "inventory_present", null: false
     t.bigint "product_id", null: false
     t.bigint "store_id", null: false
-    t.datetime "event_time"
+    t.datetime "event_time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_tracking_events_on_product_id"
