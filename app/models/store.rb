@@ -1,3 +1,5 @@
 class Store < ApplicationRecord
-    has_many :tracking_events
+  has_many :tracking_events
+
+  validates :address, presence: true
 end
