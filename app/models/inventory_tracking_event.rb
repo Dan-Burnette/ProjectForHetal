@@ -1,4 +1,4 @@
-class TrackingEvent < ApplicationRecord
+class InventoryTrackingEvent < ApplicationRecord
   belongs_to :product
   belongs_to :store
 

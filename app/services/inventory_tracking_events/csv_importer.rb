@@ -1,6 +1,6 @@
 require "csv"
 
-module TrackingEvents
+module InventoryTrackingEvents
   class CsvImporter
     REQUIRED_HEADERS = ["Address", "Product Name", "Date", "Inventory Present"].freeze
     BATCH_SIZE = 1_000
@@ -15,7 +15,7 @@ module TrackingEvents
       row_count = 0
       created_count = 0
 
-      TrackingEvent.transaction do
+      InventoryTrackingEvent.transaction do
         CSV.foreach(@path, headers: true).each_slice(BATCH_SIZE) do |rows|
           row_count += rows.size
 
@@ -38,12 +38,12 @@ module TrackingEvents
             }
           end
 
-          TrackingEvent.insert_all!(event_attributes)
+          InventoryTrackingEvent.insert_all!(event_attributes)
           created_count += event_attributes.size
         end
       end
 
-      Rails.logger.info "[TrackingEvents::CsvImporter] rows processed=#{row_count} created=#{created_count}"
+      Rails.logger.info "[InventoryTrackingEvents::CsvImporter] rows processed=#{row_count} created=#{created_count}"
     end
 
     private

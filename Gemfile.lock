@@ -143,6 +143,16 @@ GEM
     matrix (0.4.3)
     mini_mime (1.1.5)
     minitest (5.26.2)
+    monetize (2.0.1)
+      money (~> 7.0)
+    money (7.1.1)
+      bigdecimal
+      i18n (~> 1.9)
+    money-rails (3.0.0)
+      activesupport (>= 7.0)
+      monetize (~> 2.0)
+      money (~> 7.0)
+      railties (>= 7.0)
     msgpack (1.8.0)
     mutex_m (0.3.0)
     net-imap (0.5.12)
@@ -297,6 +307,7 @@ DEPENDENCIES
   debug
   importmap-rails
   jbuilder
+  money-rails
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.6)

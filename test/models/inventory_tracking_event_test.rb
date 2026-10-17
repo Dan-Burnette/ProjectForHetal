@@ -1,6 +1,6 @@
 require "test_helper"
 
-class TrackingEventTest < ActiveSupport::TestCase
+class InventoryTrackingEventTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
