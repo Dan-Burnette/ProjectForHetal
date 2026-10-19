@@ -48,6 +48,7 @@ gem 'money-rails'
 group :development, :test do
   gem "bullet"
   gem 'rspec-rails', '~> 7.0.0'
+  gem 'factory_bot'
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
