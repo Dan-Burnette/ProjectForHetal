@@ -69,13 +69,9 @@ module InventoryTrackingEvents
       supported_truthy_values = ["True"]
       supported_falsy_values = ["False"]
 
-      if supported_truthy_values.include?(value)
-        true
-      elsif supported_falsy_values.include?(value)
-        false
-      else
-        raise ArgumentError, "CSV contains unaccounted for boolean values! Cannot import it!"
-      end
+      return true if supported_truthy_values.include?(value)
+      return false if supported_falsy_values.include?(value)
+      raise ArgumentError, "CSV contains unaccounted for boolean values! Cannot import it!"
     end
   end
 end
