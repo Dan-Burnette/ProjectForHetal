@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_17_221831) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_19_192957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_17_221831) do
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_inventory_tracking_events_on_product_id"
     t.index ["store_id"], name: "index_inventory_tracking_events_on_store_id"
+  end
+
+  create_table "no_inventory_alerts", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "store_id", null: false
+    t.integer "failed_checks", null: false
+    t.datetime "first_failure_at", null: false
+    t.datetime "last_failure_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "store_id"], name: "index_no_inventory_alerts_on_product_id_and_store_id"
+    t.index ["product_id"], name: "index_no_inventory_alerts_on_product_id"
+    t.index ["store_id"], name: "index_no_inventory_alerts_on_store_id"
   end
 
   create_table "price_tracking_events", force: :cascade do |t|
@@ -62,6 +75,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_17_221831) do
 
   add_foreign_key "inventory_tracking_events", "products"
   add_foreign_key "inventory_tracking_events", "stores"
+  add_foreign_key "no_inventory_alerts", "products"
+  add_foreign_key "no_inventory_alerts", "stores"
   add_foreign_key "price_tracking_events", "products"
   add_foreign_key "price_tracking_events", "stores"
   add_foreign_key "products", "brands"
