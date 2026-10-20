@@ -3,7 +3,7 @@ require "csv"
 module InventoryTrackingEvents
   class CsvImporter
     REQUIRED_HEADERS = ["Address", "Product Name", "Date", "Inventory Present"].freeze
-    BATCH_SIZE = 1_000
+    BATCH_SIZE = 5_000
 
     def initialize(path)
       @path = path
@@ -14,8 +14,9 @@ module InventoryTrackingEvents
 
       row_count = 0
       created_count = 0
+      product_store_pairs = []
 
-      InventoryTrackingEvent.transaction do
+      ActiveRecord::Base.transaction do
         CSV.foreach(@path, headers: true).each_slice(BATCH_SIZE) do |rows|
           row_count += rows.size
 
@@ -30,6 +31,8 @@ module InventoryTrackingEvents
             product_id = product_ids_by_name[row["Product Name"]]
             next unless store_id && product_id
 
+            product_store_pairs << [product_id, store_id]
+
             {
               store_id: store_id,
               product_id: product_id,
@@ -41,9 +44,12 @@ module InventoryTrackingEvents
           InventoryTrackingEvent.insert_all!(event_attributes)
           created_count += event_attributes.size
         end
+
+        InventoryTrackingEvents::ReconcileNoInventoryAlerts.new(product_store_pairs).call
       end
 
       Rails.logger.info "[InventoryTrackingEvents::CsvImporter] rows processed=#{row_count} created=#{created_count}"
+
     end
 
     private
