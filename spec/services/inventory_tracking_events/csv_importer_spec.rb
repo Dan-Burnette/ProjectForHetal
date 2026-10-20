@@ -119,6 +119,4 @@ RSpec.describe InventoryTrackingEvents::CsvImporter do
     expect(InventoryTrackingEvent.count).to eq 0 # import rolled back
   end
 
-
-
 end
