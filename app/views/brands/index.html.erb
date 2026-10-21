@@ -12,15 +12,16 @@
     <% @brands.each do |brand| %>
       <tr>
         <td><%= brand.name %></td>
-        <td><%= brand.products.size %></td>
+        <td><%= @product_counts.fetch(brand.id, 0) %></td>
         <td><%= link_to "View", brand_path(brand) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+
 <nav>
   <%= link_to "Products", products_path %> |
   <%= link_to "Stores", stores_path %>
 </nav>
-
