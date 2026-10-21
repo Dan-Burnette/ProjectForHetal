@@ -14,6 +14,9 @@ gem "sprockets-rails"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 
+# Advisory locking compatible with Ruby 3.2 and Rails 7.1
+gem "with_advisory_lock", "~> 5.3"
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 

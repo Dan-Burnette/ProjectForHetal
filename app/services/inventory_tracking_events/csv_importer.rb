@@ -4,6 +4,7 @@ module InventoryTrackingEvents
   class CsvImporter
     REQUIRED_HEADERS = ["Address", "Product Name", "Date", "Inventory Present"].freeze
     BATCH_SIZE = 10_000
+    IMPORT_LOCK_NAME = "inventory_tracking_events_csv_import".freeze
 
     def initialize(path)
       @path = path
@@ -20,13 +21,15 @@ module InventoryTrackingEvents
       setup_progress_tracking
 
       ActiveRecord::Base.transaction do
-        CSV.foreach(@path, headers: true).each_slice(BATCH_SIZE).with_index(1) do |rows, batch_number|
-          event_attributes = build_tracking_event_attrs_for(rows)
-          InventoryTrackingEvent.insert_all!(event_attributes)
-          track_progress(rows, batch_number, event_attributes)
-        end
+        InventoryTrackingEvent.with_advisory_lock!(IMPORT_LOCK_NAME, transaction: true) do
+          CSV.foreach(@path, headers: true).each_slice(BATCH_SIZE).with_index(1) do |rows, batch_number|
+            event_attributes = build_tracking_event_attrs_for(rows)
+            InventoryTrackingEvent.insert_all!(event_attributes)
+            track_progress(rows, batch_number, event_attributes)
+          end
 
-        InventoryTrackingEvents::ReconcileNoInventoryAlerts.new(@product_store_pairs).call
+          InventoryTrackingEvents::ReconcileNoInventoryAlerts.new(@product_store_pairs).call
+        end
       end
 
       puts "[InventoryTrackingEvents::CsvImporter] import complete!"
