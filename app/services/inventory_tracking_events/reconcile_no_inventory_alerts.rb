@@ -22,7 +22,7 @@ class InventoryTrackingEvents::ReconcileNoInventoryAlerts
 
         processed_count += pairs.size
         created_count += streaks.size
-        puts "[InventoryTrackingEvents::ReconcileNoInventoryAlerts] batch #{batch_number}/#{total_batches} processed #{processed_count} product/store combinations created=#{created_count} alerts"
+        puts "[InventoryTrackingEvents::ReconcileNoInventoryAlerts] batch #{batch_number}/#{total_batches} processed #{processed_count} product/store combinations; created #{created_count} alerts"
       end
     end
 
