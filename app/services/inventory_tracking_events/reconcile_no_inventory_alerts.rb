@@ -1,5 +1,5 @@
 class InventoryTrackingEvents::ReconcileNoInventoryAlerts
-  BATCH_SIZE = 500
+  BATCH_SIZE = 1000
 
   def initialize(product_store_pairs)
     @product_store_pairs = product_store_pairs.uniq
@@ -8,7 +8,6 @@ class InventoryTrackingEvents::ReconcileNoInventoryAlerts
   # We need to wipe the NoInventoryAlerts out and rebuild them because we can't
   # rely on existing alerts being correct after new data is imported.
   def call
-    puts "[InventoryTrackingEvents::ReconcileNoInventoryAlerts] - starting..."
     return if @product_store_pairs.empty?
 
     total_batches = (@product_store_pairs.size + BATCH_SIZE - 1) / BATCH_SIZE
@@ -23,7 +22,7 @@ class InventoryTrackingEvents::ReconcileNoInventoryAlerts
 
         processed_count += pairs.size
         created_count += streaks.size
-        puts "[InventoryTrackingEvents::ReconcileNoInventoryAlerts] batch #{batch_number}/#{total_batches} processed product/store combinations=#{processed_count} created=#{created_count} alerts"
+        puts "[InventoryTrackingEvents::ReconcileNoInventoryAlerts] batch #{batch_number}/#{total_batches} processed #{processed_count} product/store combinations created=#{created_count} alerts"
       end
     end
 
