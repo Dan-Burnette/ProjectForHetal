@@ -7,7 +7,7 @@
 
 <p>
   <strong>Total Inventory Tracking Events:</strong>
-  <%= @store.inventory_tracking_events.size %>
+  <%= @pagy.count %>
 </p>
 
 <h2>Inventory Tracking Events</h2>
@@ -21,7 +21,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @store.inventory_tracking_events.each do |event| %>
+    <% @inventory_tracking_events.each do |event| %>
       <tr>
         <td><%= event.event_time&.strftime("%Y-%m-%d %H:%M") %></td>
         <td><%= event.inventory_present ? "Yes" : "No" %></td>
@@ -31,6 +31,8 @@
     <% end %>
   </tbody>
 </table>
+
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 
 <nav>
   <%= link_to "Back to Stores", stores_path %> |

@@ -9,5 +9,11 @@ class StoresController < ApplicationController
 
   def show
     @store = Store.find(params[:id])
+    @pagy, @inventory_tracking_events = pagy(
+      @store.inventory_tracking_events
+        .by_recency
+        .includes(product: :brand),
+      limit: 25
+    )
   end
 end
