@@ -1,0 +1,47 @@
+<h1>No Inventory Alerts</h1>
+
+<p>Products with at least two consecutive no-inventory checks at the same store. Alerts include past and ongoing streaks.</p>
+
+<p>
+  <strong>Total Alerts:</strong>
+  <%= @pagy.count %>
+</p>
+
+<% if @pagy.count.zero? %>
+  <p>No inventory alerts found.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Brand</th>
+        <th>Product</th>
+        <th>Store</th>
+        <th>Consecutive Failed Checks</th>
+        <th>First Failure</th>
+        <th>Latest Failure</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @no_inventory_alerts.each do |alert| %>
+        <tr>
+          <td><%= link_to alert.product.brand.name, brand_path(alert.product.brand) %></td>
+          <td><%= link_to alert.product.name, product_path(alert.product) %></td>
+          <td><%= link_to alert.store.address, store_path(alert.store) %></td>
+          <td><%= alert.failed_checks %></td>
+          <td><%= alert.first_failure_at.strftime("%Y-%m-%d %H:%M") %></td>
+          <td><%= alert.last_failure_at.strftime("%Y-%m-%d %H:%M") %></td>
+          <td><%= link_to "View Alert", no_inventory_alert_path(alert) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+
+<nav>
+  <%= link_to "Brands", brands_path %> |
+  <%= link_to "Products", products_path %> |
+  <%= link_to "Stores", stores_path %>
+</nav>

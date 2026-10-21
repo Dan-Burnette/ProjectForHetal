@@ -7,6 +7,6 @@ module TrackableEvent
 
     validates :event_time, presence: true
 
-    scope :by_recency, -> { order(event_time: :desc) }
+    scope :by_recency, -> { order(event_time: :desc, id: :desc) }
   end
 end

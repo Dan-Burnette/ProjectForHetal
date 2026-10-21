@@ -1,0 +1,43 @@
+<h1>No Inventory Alert</h1>
+
+<p>
+  <%= @no_inventory_alert.product.name %> had
+  <%= @no_inventory_alert.failed_checks %> consecutive no-inventory checks at this store.
+</p>
+
+<p>
+  <strong>Brand:</strong>
+  <%= link_to @no_inventory_alert.product.brand.name, brand_path(@no_inventory_alert.product.brand) %>
+</p>
+
+<p>
+  <strong>Product:</strong>
+  <%= link_to @no_inventory_alert.product.name, product_path(@no_inventory_alert.product) %>
+</p>
+
+<p>
+  <strong>Store:</strong>
+  <%= link_to @no_inventory_alert.store.address, store_path(@no_inventory_alert.store) %>
+</p>
+
+<p>
+  <strong>Consecutive Failed Checks:</strong>
+  <%= @no_inventory_alert.failed_checks %>
+</p>
+
+<p>
+  <strong>First Failure:</strong>
+  <%= @no_inventory_alert.first_failure_at.strftime("%Y-%m-%d %H:%M") %>
+</p>
+
+<p>
+  <strong>Latest Failure:</strong>
+  <%= @no_inventory_alert.last_failure_at.strftime("%Y-%m-%d %H:%M") %>
+</p>
+
+<nav>
+  <%= link_to "Back to No Inventory Alerts", no_inventory_alerts_path %> |
+  <%= link_to "Brands", brands_path %> |
+  <%= link_to "Products", products_path %> |
+  <%= link_to "Stores", stores_path %>
+</nav>

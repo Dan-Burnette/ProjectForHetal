@@ -24,6 +24,7 @@
 <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 
 <nav>
+  <%= link_to "No Inventory Alerts", no_inventory_alerts_path %> |
   <%= link_to "Brands", brands_path %> |
   <%= link_to "Stores", stores_path %>
 </nav>

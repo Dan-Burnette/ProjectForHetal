@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   def index
-    @pagy, @products = pagy(Product.all, limit: 25)
+    @pagy, @products = pagy(Product.includes(:brand), limit: 25)
     @inventory_event_counts = InventoryTrackingEvent
       .where(product_id: @products.pluck(:id))
       .group(:product_id)
