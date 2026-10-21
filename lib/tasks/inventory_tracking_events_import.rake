@@ -1,5 +1,5 @@
-namespace :tracking_events do
-    desc "Import tracking events from tracking_events.csv located in the app root"
+namespace :inventory_tracking_events do
+    desc "Import inventory tracking events from tracking_events.csv located in the app root"
     task import: :environment do
       path = Rails.root.join("tracking_events.csv")
   
@@ -11,9 +11,9 @@ namespace :tracking_events do
         exit 1
       end
   
-      puts "Importing tracking events from #{path}..."
+      puts "Importing inventory tracking events from #{path}..."
       
-      TrackingEvents::CsvImporter.new(path).call
+      InventoryTrackingEvents::CsvImporter.new(path).call
   
       puts "Done."
     end

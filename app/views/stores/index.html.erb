@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>Address</th>
-      <th>Tracking Events</th>
+      <th>Inventory Tracking Events</th>
       <th></th>
     </tr>
   </thead>
@@ -12,15 +12,17 @@
     <% @stores.each do |store| %>
       <tr>
         <td><%= store.address %></td>
-        <td><%= store.tracking_events.size %></td>
+        <td><%= @inventory_event_counts.fetch(store.id, 0) %></td>
         <td><%= link_to "View", store_path(store) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+
 <nav>
+  <%= link_to "No Inventory Alerts", no_inventory_alerts_path %> |
   <%= link_to "Products", products_path %> |
   <%= link_to "Brands", brands_path %>
 </nav>
-
