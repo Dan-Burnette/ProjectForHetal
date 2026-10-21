@@ -14,12 +14,14 @@
       <tr>
         <td><%= product.name %></td>
         <td><%= product.brand&.name %></td>
-        <td><%= product.inventory_tracking_events.size %></td>
+        <td><%= @inventory_event_counts.fetch(product.id, 0) %></td>
         <td><%= link_to "View", product_path(product) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 
 <nav>
   <%= link_to "Brands", brands_path %> |
